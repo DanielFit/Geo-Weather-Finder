@@ -1,0 +1,75 @@
+<h2>Find Weather In Your Area</h2>
+
+
+<form [formGroup]="weatherForm">
+
+    <p><label for="lat"> Latitude </label> 
+    <input id="lat" type="text" formControlName="lat"></p>
+
+    <label for="lon"> Longitude </label>
+   
+    
+    <input id="lon" type="text" formControlName="lon">
+
+    <br>
+    <br/>
+
+    <label for="display-wind">Display wind</label>
+    <input id="display-wind" type="checkbox" formControlName="displayWindOnly">
+
+    <br> <br/>
+
+    <label for="display-main">Display temperature</label>
+    <input id="display-main" type="checkbox" formControlName="displayMainOnly">
+    
+    <br> <br/>
+
+    <label for="display-clouds">Display clouds</label>
+    <input id="display-clouds" type="checkbox" formControlName="displayCloudsOnly">
+
+    <br> <br/>
+
+    <label for="display-sys">Display Sun</label>
+    <input id="display-sys" type="checkbox" formControlName="displaySunOnly">
+
+    <br>
+
+   
+    <button [disabled]="!weatherForm.valid" (click)="getWeather()">Get location details</button>
+</form>
+    
+
+<div *ngIf="weather && weatherForm.value.displayWindOnly">
+        {{weather.wind | json}}
+      </div>
+  
+      <div *ngIf="weather && weatherForm.value.displayMainOnly">
+          {{weather.main | json}}
+        </div>
+      
+        <div *ngIf="weather && weatherForm.value.displayCloudsOnly">
+          {{weather.clouds | json}}
+        </div>
+
+        <div *ngIf="weather && weatherForm.value.displaySunOnly">
+            {{weather.sys | json}}
+          </div>
+
+        <div *ngIf="weather 
+        && !weatherForm.value.displayWindOnly
+        && !weatherForm.value.displayCloudsOnly
+        && !weatherForm.value.displayMainOnly
+        && !weatherForm.value.displaySunOnly">
+            {{weather | json}}
+          </div>
+        <br>
+    
+ 
+    
+  
+    
+   
+
+    
+
+    
