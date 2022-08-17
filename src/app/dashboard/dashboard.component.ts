@@ -2,7 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms'
 import { Subscription } from 'rxjs';
 import {WeatherService} from '../weather.service'
-import{WeatherResponse} from '../Iweather'
+import{Clouds, Main, Sys, WeatherResponse, Wind} from '../Iweather'
+
+
+
+
+
 
 
 
@@ -14,33 +19,47 @@ import{WeatherResponse} from '../Iweather'
 export class DashboardComponent implements OnInit {
   weather?: WeatherResponse
   subscriptions: Subscription []= []
+  weatherDisplayValues: (keyof WeatherResponse)[] = ['name','timezone', 'visibility', ]
+  weatherDisplayMainPipe: (keyof Main)[] = ['temp','feels_like','temp_min', 'temp_max','pressure','humidity']
+  weatherDisplayWindPipe: (keyof Wind)[]= ['speed','deg']
+  weatherDisplayCloudPipe:(keyof Clouds)[]= ['all']
+  weatherDisplaySysPipe:(keyof Sys)[]= ['sunrise','sunset']
+  cloudDisplayValues: (keyof Clouds)[] = ['all' ]
+  windDisplayValues: (keyof Wind)[] = ['deg','speed' ]
+  mainDisplayValues: (keyof Main)[] = ['temp','feels_like','temp_min','temp_max','humidity']
+  sysDisplayValues: (keyof Sys)[] = ['sunrise','sunset'] 
   weatherForm = new FormGroup({ 
   lat: new FormControl('', Validators.required),
   lon: new FormControl('', Validators.required),
   displayWindOnly: new FormControl (false),
   displayMainOnly: new FormControl (false),
   displayCloudsOnly: new FormControl (false),
-  displaySunOnly: new FormControl (false),
- 
+  displaySysOnly: new FormControl (false),
+
 }) 
 
-  constructor(private weatherService:WeatherService) { }
+
+  constructor(private weatherService:WeatherService) {
+    this.weatherService.weather.subscribe(val => this.weather = val)
+   }
+  
 
   ngOnInit(): void {
     this.getWeather();
   }
 
   getWeather(): void{
-    this.weatherService.getWeather(this.weatherForm.controls.lat.value??'', this.weatherForm.controls.lon.value??'').subscribe(weather => {this.weather =weather
-    console.log(JSON.stringify(weather))})
+    this.weatherService.getWeather(this.weatherForm.value.lat??'', this.weatherForm.controls.lon.value??'')
+    
+   
   }
+
 
   isObject(value:any) {
     return typeof value === "object"
   }
 
 
-  
- 
-
 }
+
+

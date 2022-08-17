@@ -1,75 +1,92 @@
-<h2>Find Weather In Your Area</h2>
+
+
 
 
 <form [formGroup]="weatherForm">
+ <h2> Find Weather In Your Area</h2>
 
-    <p><label for="lat"> Latitude </label> 
-    <input id="lat" type="text" formControlName="lat"></p>
+<div class ="buttons"> 
+  <label for="lat"> Latitude </label> 
+  <input id="lat" type="text" formControlName="lat"><p></p>
+  <label for="lon"> Longitude </label>
+  <input id="lon" type="text" formControlName="lon"><p></p>
 
-    <label for="lon"> Longitude </label>
+<mat-list>
+
+
+<div class="display-info">
+  <div *ngIf=" weather">
+    <div *ngFor="let dv of weatherDisplayValues">
+        <app-display-value title="{{dv}}" value="{{weather[dv] | weatherDisplayPipe:dv}}"></app-display-value>
+    </div>
+  </div><p></p>
+</div>
+
+<mat-divider></mat-divider>
+
+  <mat-label for="display-main">Display temperature</mat-label>
+  <mat-checkbox color="warn" id="display-main" formControlName="displayMainOnly"></mat-checkbox><p></p>
+
+
+
+<div class="display-info">
+  <div *ngIf=" weather && weatherForm.value.displayMainOnly">
+    <div *ngFor="let dv of mainDisplayValues">
+        <app-display-value title="{{dv |MianKeyname}}" value="{{weather.main[dv] | weatherDisplayMainPipe:dv}}"></app-display-value>
+    </div>
+  </div><p></p>
+</div>
+
+<mat-divider></mat-divider>
+
+  <label for="display-wind">Display wind</label>
+  <mat-checkbox color="accent" id="display-wind" type="checkbox" formControlName="displayWindOnly"></mat-checkbox><p></p>
+
+  <div class="display-info">
+  <div *ngIf=" weather && weatherForm.value.displayWindOnly">
+    <div *ngFor="let dv of windDisplayValues">
+         <app-display-value  title="{{dv | Windkeyname}}" value="{{weather.wind[dv] | weatherDisplayWindPipe:dv}}"></app-display-value>
+    </div>
+  </div>
+  </div><p></p>
+
+  <mat-divider></mat-divider>
+
+  <label for="display-clouds">Display clouds</label>
+  <mat-checkbox color="primary" id="display-clouds" type="checkbox" formControlName="displayCloudsOnly"></mat-checkbox>
+  <div class="display-info">
+  <div *ngIf=" weather && weatherForm.value.displayCloudsOnly">
+    <div *ngFor="let dv of cloudDisplayValues">
+        <app-display-value title="{{dv | CloudKeyname}}" value="{{weather.clouds[dv] | weatherDisplayCloudPipe:dv}}"></app-display-value>
+    </div>
+  </div>
+  </div><p></p>
+  
+  <mat-divider></mat-divider>
+
+  <label for="display-sys">Display Sun</label>
+  <mat-checkbox color="accent" id="display-sys" type="checkbox" formControlName="displaySysOnly"></mat-checkbox><p></p>
+  <div *ngIf=" weather && weatherForm.value.displaySysOnly">
+    <div class="display-info">
+    <div *ngFor="let dv of sysDisplayValues">
+        <app-display-value title="{{dv}}" value="{{weather.sys[dv] | weatherDisplaySysPipe:dv}}"></app-display-value>
+    </div>
+    </div>
+  </div><p></p>
+</mat-list>
+
+<mat-divider></mat-divider><p></p>
    
-    
-    <input id="lon" type="text" formControlName="lon">
-
-    <br>
-    <br/>
-
-    <label for="display-wind">Display wind</label>
-    <input id="display-wind" type="checkbox" formControlName="displayWindOnly">
-
-    <br> <br/>
-
-    <label for="display-main">Display temperature</label>
-    <input id="display-main" type="checkbox" formControlName="displayMainOnly">
-    
-    <br> <br/>
-
-    <label for="display-clouds">Display clouds</label>
-    <input id="display-clouds" type="checkbox" formControlName="displayCloudsOnly">
-
-    <br> <br/>
-
-    <label for="display-sys">Display Sun</label>
-    <input id="display-sys" type="checkbox" formControlName="displaySunOnly">
-
-    <br>
+    <button mat-raised-button color="warn"  [disabled]="!weatherForm.valid" (click)="getWeather()">Get location details</button>
 
    
-    <button [disabled]="!weatherForm.valid" (click)="getWeather()">Get location details</button>
+
+    
+    
+</div>
 </form>
-    
 
-<div *ngIf="weather && weatherForm.value.displayWindOnly">
-        {{weather.wind | json}}
-      </div>
-  
-      <div *ngIf="weather && weatherForm.value.displayMainOnly">
-          {{weather.main | json}}
-        </div>
-      
-        <div *ngIf="weather && weatherForm.value.displayCloudsOnly">
-          {{weather.clouds | json}}
-        </div>
 
-        <div *ngIf="weather && weatherForm.value.displaySunOnly">
-            {{weather.sys | json}}
-          </div>
 
-        <div *ngIf="weather 
-        && !weatherForm.value.displayWindOnly
-        && !weatherForm.value.displayCloudsOnly
-        && !weatherForm.value.displayMainOnly
-        && !weatherForm.value.displaySunOnly">
-            {{weather | json}}
-          </div>
-        <br>
-    
- 
-    
-  
-    
-   
-
-    
 
     

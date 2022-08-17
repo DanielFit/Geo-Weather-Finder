@@ -1,0 +1,5 @@
+<div *ngIf=" displayKeys && value">
+    <div *ngFor="let dv of displayKeys">
+        <app-display-value title="{{getTitle(dv)}}" value="{{value[dv]}}"></app-display-value>
+    </div>
+</div>

@@ -44,7 +44,10 @@ export interface WeatherResponse {
   export interface Clouds {
     all: number;
   }
+
   
+
+
   export interface Sys {
     type: number;
     id: number;
