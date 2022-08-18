@@ -40,7 +40,9 @@ export class DashboardComponent implements OnInit {
 
 
   constructor(private weatherService:WeatherService) {
-    this.weatherService.weather.subscribe(val => this.weather = val)
+    this.weatherService.weather.subscribe(val => {this.weather = val
+    this.weatherForm.controls.lat.setValue(val.coord.lat.toString())
+    this.weatherForm.controls.lon.setValue(val.coord.lat.toString())})
    }
   
 

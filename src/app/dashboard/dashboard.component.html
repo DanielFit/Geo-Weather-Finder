@@ -1,92 +1,113 @@
-
-
-
-
-<form [formGroup]="weatherForm">
- <h2> Find Weather In Your Area</h2>
-
-<div class ="buttons"> 
-  <label for="lat"> Latitude </label> 
-  <input id="lat" type="text" formControlName="lat"><p></p>
-  <label for="lon"> Longitude </label>
-  <input id="lon" type="text" formControlName="lon"><p></p>
-
-<mat-list>
-
-
-<div class="display-info">
-  <div *ngIf=" weather">
-    <div *ngFor="let dv of weatherDisplayValues">
-        <app-display-value title="{{dv}}" value="{{weather[dv] | weatherDisplayPipe:dv}}"></app-display-value>
-    </div>
-  </div><p></p>
-</div>
-
-<mat-divider></mat-divider>
-
-  <mat-label for="display-main">Display temperature</mat-label>
-  <mat-checkbox color="warn" id="display-main" formControlName="displayMainOnly"></mat-checkbox><p></p>
-
-
-
-<div class="display-info">
-  <div *ngIf=" weather && weatherForm.value.displayMainOnly">
-    <div *ngFor="let dv of mainDisplayValues">
-        <app-display-value title="{{dv |MianKeyname}}" value="{{weather.main[dv] | weatherDisplayMainPipe:dv}}"></app-display-value>
-    </div>
-  </div><p></p>
-</div>
-
-<mat-divider></mat-divider>
-
-  <label for="display-wind">Display wind</label>
-  <mat-checkbox color="accent" id="display-wind" type="checkbox" formControlName="displayWindOnly"></mat-checkbox><p></p>
-
-  <div class="display-info">
-  <div *ngIf=" weather && weatherForm.value.displayWindOnly">
-    <div *ngFor="let dv of windDisplayValues">
-         <app-display-value  title="{{dv | Windkeyname}}" value="{{weather.wind[dv] | weatherDisplayWindPipe:dv}}"></app-display-value>
-    </div>
-  </div>
-  </div><p></p>
-
-  <mat-divider></mat-divider>
-
-  <label for="display-clouds">Display clouds</label>
-  <mat-checkbox color="primary" id="display-clouds" type="checkbox" formControlName="displayCloudsOnly"></mat-checkbox>
-  <div class="display-info">
-  <div *ngIf=" weather && weatherForm.value.displayCloudsOnly">
-    <div *ngFor="let dv of cloudDisplayValues">
-        <app-display-value title="{{dv | CloudKeyname}}" value="{{weather.clouds[dv] | weatherDisplayCloudPipe:dv}}"></app-display-value>
-    </div>
-  </div>
-  </div><p></p>
+<mat-card>
+  <mat-card-header>
   
-  <mat-divider></mat-divider>
-
-  <label for="display-sys">Display Sun</label>
-  <mat-checkbox color="accent" id="display-sys" type="checkbox" formControlName="displaySysOnly"></mat-checkbox><p></p>
-  <div *ngIf=" weather && weatherForm.value.displaySysOnly">
-    <div class="display-info">
-    <div *ngFor="let dv of sysDisplayValues">
-        <app-display-value title="{{dv}}" value="{{weather.sys[dv] | weatherDisplaySysPipe:dv}}"></app-display-value>
-    </div>
-    </div>
-  </div><p></p>
-</mat-list>
-
-<mat-divider></mat-divider><p></p>
-   
-    <button mat-raised-button color="warn"  [disabled]="!weatherForm.valid" (click)="getWeather()">Get location details</button>
-
-   
-
-    
-    
-</div>
-</form>
+  </mat-card-header>
+  <mat-card-content>
+  <form class="weather-form" [formGroup]="weatherForm">
 
 
+    <mat-form-field>
+      <mat-label> Latitude </mat-label>
+      <input matInput type="text" formControlName="lat">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label> Longitude </mat-label>
+      <input matInput type="text" formControlName="lon">
+    </mat-form-field>
+
+    <ng-container *ngIf="weather">
+      <mat-list>
 
 
-    
+        <mat-expansion-panel expanded>
+          <div class="display-info">
+            <div *ngIf=" weather">
+              <div *ngFor="let dv of weatherDisplayValues">
+                <app-display-value title="{{dv}}" value="{{weather[dv] | weatherDisplayPipe:dv}}"></app-display-value>
+              </div>
+            </div>
+          </div>
+        </mat-expansion-panel>
+
+        <mat-divider></mat-divider>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+             Temperature Info
+          </mat-expansion-panel-header>
+
+          <div class="display-info">
+
+            <div *ngFor="let dv of mainDisplayValues">
+              <app-display-value title="{{dv |MianKeyname}}" value="{{weather.main[dv] | weatherDisplayMainPipe:dv}}">
+              </app-display-value>
+            </div>
+          </div>
+        </mat-expansion-panel>
+
+
+
+
+
+
+        <mat-divider></mat-divider>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+             Wind Info
+          </mat-expansion-panel-header>
+
+          <div class="display-info">
+
+            <div *ngFor="let dv of windDisplayValues">
+              <app-display-value title="{{dv | Windkeyname}}" value="{{weather.wind[dv] | weatherDisplayWindPipe:dv}}">
+              </app-display-value>
+            </div>
+          </div>
+        </mat-expansion-panel>
+
+
+        <mat-divider></mat-divider>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+             Cloud Info
+          </mat-expansion-panel-header>
+
+          <div class="display-info">
+
+            <div *ngFor="let dv of cloudDisplayValues">
+              <app-display-value title="{{dv | CloudKeyname}}"
+                value="{{weather.clouds[dv] | weatherDisplayCloudPipe:dv}}"></app-display-value>
+            </div>
+          </div>
+        </mat-expansion-panel>
+
+        <mat-divider></mat-divider>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+             Sunrise Info
+          </mat-expansion-panel-header>
+
+          <div class="display-info">
+
+            <div *ngFor="let dv of sysDisplayValues">
+              <app-display-value title="{{dv}}" value="{{weather.sys[dv] | weatherDisplaySysPipe:dv}}">
+              </app-display-value>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-list>
+    </ng-container>
+
+
+    <mat-card-actions>
+      <button mat-raised-button color="warn" [disabled]="!weatherForm.valid" (click)="getWeather()">Get location
+        details</button>
+    </mat-card-actions>
+
+  </form>
+</mat-card-content>
+</mat-card>
